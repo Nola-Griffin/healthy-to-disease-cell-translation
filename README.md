@@ -1,2 +1,7 @@
 # healthy-to-disease-cell-translation
-Single-cell ML project exploring translation of healthy transcriptomes into disease-like states using PyTorch and CZ CELLxGENE Census data.
+A machine learning project exploring whether healthy single-cell transcriptomes can be transformed into disease-like transcriptomes. 
+goals: 
+- Learn PyTorch
+- Learn Single-cell genomics
+- Learn agentic AI workflows
+- Build a reproducible research lab notebook
