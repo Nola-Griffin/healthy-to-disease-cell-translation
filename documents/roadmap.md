@@ -10,14 +10,14 @@
 5. Explore whether computational models can identify changes that would move a cell toward a different state and what diseases result from certain gene changes. (generate hypothesis for what changes might make a diseased cell healthy again)
 
 
-###Next session goals: 
-- Create some starter usuable functions in cells.py to use on datasets later.
-1. Create a count_healthy() function in cells.py
-2. Create count_diseased() function in cells.py
-3. Create disease_percentage() in cells.py
-- test these functions using main.py using a sample chatgpt generated dataset. 
-4. Find and analyze a real cell data sheet.
-5. Learn how to import the real cell data sheet from the data folder using a CSV file.
+###Next goals: 
+- Load and inspect my first biological dataset in Python
+1. Find and load a sample dataset from cellxgene.cciscience.comAnt.
+2. Save the dataset to the data folder.
+3. Analyze and learn from the actual dataset.
+4. Modify existin functions to accomodate the data set if needed.
+5. Identify specifically if disease labels are present.
+6. Load the dataset into python using pandas.
 
 ###other goals: 
 - use the analyzed dataset to create simple starting rules for my program to use.
