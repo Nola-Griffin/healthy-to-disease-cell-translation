@@ -88,3 +88,31 @@ main.py: used as the main file to upload/create cell datasets and to call upon f
 - Is there more than one method of coding in python? I coded the traditional way through syntax and loops, but chatgpt also suggested: an ifinstance shorthand command. Is that a function or another way of programming?
 - After pushing the code to github, can all of the programs be retreived in the event the computer crashed or should I put my projects on a hard drive?
 -----------------------------------------------------------------------------------------------------------------------------------------
+## 06/10/2026
+###Goal: Load my first actual biological dataset and analyze it. Create some reusable functions that can be used to analyze the dataset.
+
+###What I did:
+- Downloaded a cystic fibrosis dataset from CELLxGene and imported it.
+- Created a gene_mean_difference() function to analyze the difference in means between healthy and diseased cells for each gene.
+- Created a get_gene_expression() function to analyze the extent certain genes are expressed in healthy and diseased cells.
+- Created a gene_detection_difference() function to analyze the difference in if a gene is expressed at all proportional to the amount of healthy and diseased cells present. 
+- Filtered the cystic_fibrosis_investigation list into a healthy cell list and diseased cell list, only looking at ciliated epithelial cells that are untreated. 
+- Created scatterplots and tables to investigate gene expression in the represented cells.
+- Documented the process in a jupyter notebook.
+
+###What I learned: 
+- Sometimes whether or not the gene is activated gives more information than the extent the gene is expressed when determining healthy and diseased cells. 
+- The presence of certain genes will cause the rule-based classifier to be innacurate, such as sex-based genes. 
+- adding ../ will tell the program to look at the parent folder when trying to find the path to a file.
+- How to create tables and histograms in the pandas library.
+- I learned what a ciliated epithelial cell is.
+- I learned that immune cells are indicators of disease (the large amount of white blood cell data in the dataset)
+- How the header() function works and why it makes analyzing code easier for programmers. 
+- That some cells have genes that are turned on but show as 0 on a histogram because the expression is so low. 
+
+###Questions: 
+- Do other cofounding variables like ethnicity strongly affect this dataset? 
+- Why is gene expression less of a factor when determining whether a cell is diseased or not? 
+- Is the fact that the gene expression data is condensed by taking the log going to lead to complications when doing data analysis? 
+- How do simple rule-based classifiers become accurate? My guess is that it is a combination of a bunch of and and or statements. 
+- Are there some genes that lead to more accurate analysis that histogram and table methods will overlook? 

@@ -1,33 +1,72 @@
 # This file contains functions to work with cells in a matrix
+import numpy as np
+import pandas as pd
 
-#These are general functions to work with cells in a matrix.
-def count(matrix, condition):
-    "Purpose: counts the number of cells given in a matrix with a certain condition"
-    "Parameters: matrix - a 2D list representing cells, condition - the value to count in the matrix"
-    "Return: the number of cells in the matrix that match the condition"
-    count_value = 0
+#This function takes in two AnnData objects, one for healthy cells and one for cystic fibrosis cells, and calculates the mean expression of each gene in both groups. It then computes the difference in mean expression between the two groups and returns a DataFrame with the results, sorted by the absolute difference in mean expression.
+def gene_mean_difference(healthy, diseased):
 
-    for cell in matrix:
-        # Case 1: simple list of strings
-        if isinstance(cell, str):
-            if cell.lower() == condition.lower():
-                count_value += 1
+    healthy_means = np.asarray(
+        healthy.X.mean(axis=0)
+    ).flatten()
 
-        # Case 2: dictionary row (real dataset)
-        elif isinstance(cell, dict):
-            if cell.get("state", "").lower() == condition.lower():
-                count_value += 1
+    diseased_means = np.asarray(
+        diseased.X.mean(axis=0)
+    ).flatten()
 
-    return count_value
+    difference = diseased_means - healthy_means
 
-def disease_percentage(matrix):
-    "Purpose: calculates the percentage of diseased cells in a matrix"
-    "Parameters: matrix - a 2D list representing cells where each row is a cell."
-    "Return: the percentage of diseased cells in the matrix"
-    diseased = count(matrix, "diseased")
-    healthy = count(matrix, "healthy")
-    total = diseased + healthy
-    if total == 0:
-        return 0
-    return (diseased / total) * 100
+    results = pd.DataFrame({
+        "gene": healthy.var["Symbol"],
+        "healthy_mean": healthy_means,
+        "diseased_mean": diseased_means,
+        "difference": difference,
+        "abs_difference": np.abs(difference)
+    })
 
+    results = results.sort_values(
+        "abs_difference",
+        ascending=False
+    ).reset_index(drop=True)
+
+    return results
+
+ #This function assists in getting eligible genes to research by taking in an AnnData object and a gene name, and returns the expression values for that gene across all cells. It first finds the index of the specified gene in the AnnData object, then retrieves the expression values for that gene. If the values are stored in a sparse matrix format, it converts them to a dense array before returning them as a flattened array.   
+def get_gene_expression(adata, gene_name):
+
+    gene_index = np.where(
+        adata.var["Symbol"] == gene_name)[0][0]
+    
+    values = adata.X[:, gene_index]
+
+    if hasattr(values, "toarray"):
+        values = values.toarray()
+
+    return values.flatten()
+    
+#This function calculates the difference in gene detection between healthy and diseased cells. It computes the proportion of cells in which each gene is detected (i.e., has a non-zero expression) for both healthy and cystic fibrosis groups, then calculates the difference in detection rates between the two groups. The results are returned in a DataFrame sorted by the absolute difference in detection rates.
+def gene_detection_difference(healthy, diseased):
+
+    healthy_detected = np.asarray(
+        (healthy.X > 0).mean(axis=0)
+    ).flatten()
+
+    diseased_detected = np.asarray(
+        (diseased.X > 0).mean(axis=0)
+    ).flatten()
+
+    difference = diseased_detected - healthy_detected
+
+    results = pd.DataFrame({
+        "gene": healthy.var["Symbol"],
+        "healthy_detected": healthy_detected,
+        "diseased_detected": diseased_detected,
+        "detection_difference": difference,
+        "abs_detection_difference": np.abs(difference)
+    })
+
+    results = results.sort_values(
+        "abs_detection_difference",
+        ascending=False
+    ).reset_index(drop=True)
+
+    return results
